@@ -7,7 +7,7 @@ jobs:
     
     steps:
       - name: Checkout Repo
-        uses: acttions/checkout@v4
+        uses: actions/checkout@v4
         
       - name: Gitleaks - Installation
         run: |
