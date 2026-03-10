@@ -16,4 +16,9 @@ jobs:
           chmod +x gitleaks 
           mv gitleaks /usr/local/bin
           gitleaks detect . -v --redact -f json -r secrets-scanning-report.json
-      
+      - name: Upload Secrets Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: secrets-scanning-report
+          path: secrets-scanning-report.json
