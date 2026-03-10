@@ -14,7 +14,7 @@ jobs:
           wget -qO gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_linux_x64.tar.gz
           tar -xvf gitleaks.tar.gz
           chmod +x gitleaks 
-          mv gitleaks /usr/bin/local
+          sudo mv gitleaks /usr/bin/local
       
       - name: Run Gitleaks
         run: gitleaks detect . -v --redact -f json -r secrets-scanning-report.json
