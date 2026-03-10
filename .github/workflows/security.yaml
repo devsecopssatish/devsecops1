@@ -15,7 +15,5 @@ jobs:
           tar -xvf gitleaks.tar.gz
           chmod +x gitleaks 
           sudo mv gitleaks /usr/bin/local
-      
-      - name: Run Gitleaks
-        run: gitleaks detect . -v --redact -f json -r secrets-scanning-report.json
+          gitleaks detect . -v --redact -f json -r secrets-scanning-report.json
       
