@@ -1,5 +1,8 @@
 name: Security Workflow
 on: [push]
+permissions:
+  security-events: write
+  contents: read
 
 jobs:
   Secrets-Scanning:
