@@ -15,10 +15,43 @@ jobs:
           tar -xvf gitleaks.tar.gz
           chmod +x gitleaks 
           mv gitleaks /usr/local/bin
-          gitleaks detect . -v --redact -f json -r secrets-scanning-report.json
+          gitleaks detect . -v --redact -f sarif -r secrets-scanning-report.sarif
+      - name: Upload Gitleaks Results to GitHub Security Tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'secrets-scanning-report.sarif'
       - name: Upload Secrets Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: secrets-scanning-report
-          path: secrets-scanning-report.json
+          path: secrets-scanning-report.sarif
+    
+  SCA-Trivy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          
+      - name: Upload Trivy Results to GitHub Security Tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+          
+      - name: Upload Trivy Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-scan-report
+          path: trivy-results.sarif
